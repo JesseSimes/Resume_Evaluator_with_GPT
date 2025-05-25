@@ -1,100 +1,148 @@
-## 🧭 **📍Resume Evaluator with GPT**
+## 🔍 **Project Goal**
 
-### 🔹 **Week 1: Resume Extraction + Parsing**
+Build a system that:
 
-> ✅ Goal: Extract structured data from resume files (PDF/DOCX)
-
-**Tasks:**
-
-* Collect sample resumes in different formats (PDF, DOCX).
-* Implement file upload and text extraction:
-
-  * `PyMuPDF`, `pdfminer.six` or `pdfplumber` for PDFs
-  * `python-docx` for DOCX
-* Clean and normalize extracted text.
-* Optional: Extract structured fields like name, email, skills, education, etc.
-
-**Deliverable:** `parser.py` that outputs clean resume text.
+* **Parses resumes** (from `.docx`, `.pdf`, etc.)
+* Extracts relevant information (skills, education, experience, etc.)
+* **Evaluates them** for a given **job role**
+* Uses **GPT-based prompt engineering** to provide **feedback**, **scoring**, and **recommendations**
 
 ---
 
-### 🔹 **Week 2: Prompt Engineering + GPT Integration**
+## 📘 **Project Coverage Breakdown**
 
-> ✅ Goal: Design and test prompts for evaluating resumes using GPT
+### 🧩 **Phase 1: Planning and Dataset Preparation**
 
-**Tasks:**
+* ✅ Organize 288 `.docx` resumes
+* ✅ Tag or classify job role (if available) for each resume
+* ✅ Define a few target job roles for evaluation (e.g., Web Developer, Data Analyst, UI/UX Designer)
+* ✅ Define criteria for evaluation:
 
-* Identify key evaluation criteria:
-
-  * Relevance of skills
-  * Formatting and clarity
-  * Experience strength
-  * Education background
-  * ATS compatibility (keyword usage)
-* Write prompt templates (few-shot or zero-shot) in a separate `prompts/` folder.
-* Create `evaluator.py` to:
-
-  * Load the resume text
-  * Insert it into the prompt
-  * Call the GPT model via OpenAI API or LangChain
-
-**Deliverable:** Functional GPT-based evaluator returning structured feedback.
+  * Skill match
+  * Format
+  * ATS friendliness
+  * Experience alignment
+  * Education relevance
 
 ---
 
-### 🔹 **Week 3: Scoring System + Feedback Generation**
+### 🧾 **Phase 2: Resume Parsing and Information Extraction**
 
-> ✅ Goal: Convert GPT feedback into quantifiable scores and useful tips
+> 🔧 *Focus: NLP tools and preprocessing*
 
-**Tasks:**
+* Read `.docx` files (using `python-docx`)
+* Extract:
 
-* Parse GPT output into a structured format (using regex/JSON parsing).
-* Design scoring logic:
+  * Name
+  * Email/contact
+  * Education
+  * Skills
+  * Experience
+  * Certifications/projects
+* Use NLP tools like:
 
-  * Use GPT response or rule-based system to assign scores (0–100) for each category.
-* Create `scorer.py` to:
+  * `spaCy` for Named Entity Recognition
+  * Regular expressions for emails, phone numbers, etc.
 
-  * Take GPT output
-  * Assign scores per section
-  * Summarize and recommend improvements
+✅ Outcome: A structured resume JSON like:
 
-**Deliverable:** Resume scorecard + feedback report in text or JSON format.
-
----
-
-### 🔹 **Week 4: User Interface + Report Generator**
-
-> ✅ Goal: Build a minimal app interface and generate downloadable reports
-
-**Tasks:**
-
-* Build a simple Streamlit or Gradio UI:
-
-  * File upload
-  * Display parsed content
-  * Show GPT feedback and scores
-* Optionally allow user role (e.g., "Developer Role") for role-specific evaluation.
-* Export report as PDF using `fpdf` or `reportlab`.
-
-**Deliverable:** MVP resume evaluation app with downloadable report.
+```json
+{
+  "name": "Jane Doe",
+  "email": "jane@email.com",
+  "skills": ["Python", "Data Analysis", "Pandas"],
+  "education": "B.Tech in Computer Science",
+  "experience": "2 years in analytics at XYZ",
+  ...
+}
+```
 
 ---
 
-### 📦 Final Deliverables:
+### 💬 **Phase 3: Prompt Engineering & GPT Feedback**
 
-* ✅ Full codebase (with comments and README)
-* ✅ Demo video (optional)
-* ✅ Evaluation reports for sample resumes
-* ✅ A write-up / blog summarizing the build process
+> 🔧 *Focus: OpenAI GPT model prompting and refinement*
+
+* Design GPT prompts to:
+
+  * Evaluate the parsed resume against a given job description
+  * Provide structured feedback (strengths, weaknesses, tips)
+  * Generate scores (0–100 or star rating)
+* Experiment with:
+
+  * Role-specific prompts
+  * Chain-of-thought prompting
+  * Few-shot examples (optional)
+
+✅ Outcome: Clean and reliable GPT-powered feedback.
 
 ---
 
-### 🧠 Skills You’ll Build:
+### 📊 **Phase 4: Scoring Logic & Evaluation**
 
-* Prompt engineering techniques
-* Resume parsing with Python NLP
-* LLM integration with APIs
-* Scoring logic & data structuring
-* Streamlit or Gradio UI design
+> 🔧 *Focus: Logic & consistency*
 
+* Define scoring rules:
+
+  * Skill match: 40%
+  * Experience relevance: 30%
+  * Education alignment: 10%
+  * Formatting: 10%
+  * Certifications/projects: 10%
+* Combine GPT feedback + rule-based components (hybrid logic)
+* Optional: Use cosine similarity or embeddings (OpenAI or `sentence-transformers`) to match resume and job description
+
+✅ Outcome: Each resume gets a score and personalized feedback.
+
+---
+
+### 🌐 **Phase 5: Web App (Optional but Ideal)**
+
+> 🔧 *Focus: Integrate everything into a frontend*
+
+* Frontend in **React** or **Streamlit**
+* Upload resume ➜ select job role ➜ get feedback instantly
+* Show:
+
+  * Parsed summary
+  * Feedback
+  * Score
+  * Downloadable report (PDF)
+
+✅ Outcome: Complete usable application.
+
+---
+
+### 📦 **Phase 6: Export and Reporting**
+
+> 🔧 *Focus: Real-world usability*
+
+* Option to generate:
+
+  * PDF feedback report
+  * JSON export of evaluation data
+* Batch processing of multiple resumes
+
+---
+
+## 🔧 Tools and Tech Stack
+
+| Task                 | Tool                                         |
+| -------------------- | -------------------------------------------- |
+| Parsing `.docx`      | `python-docx`, `pdfminer`, `PyMuPDF`         |
+| NLP & Extraction     | `spaCy`, `re`, `nltk`                        |
+| GPT Interaction      | `OpenAI API`                                 |
+| Evaluation UI        | `Streamlit` or `React + Flask`               |
+| Report Export        | `reportlab`, `pdfkit`, `weasyprint`          |
+| Embedding (optional) | `OpenAI Embeddings`, `sentence-transformers` |
+
+---
+
+## 📅 Suggested Timeline (2–3 weeks)
+
+| Week | Task                                 |
+| ---- | ------------------------------------ |
+| 1    | Resume parser + extractor            |
+| 2    | Prompt engineering + GPT feedback    |
+| 3    | Scoring logic + web UI/report export |
 
