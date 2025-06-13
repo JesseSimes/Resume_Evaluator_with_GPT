@@ -145,4 +145,3 @@ Build a system that:
 | 1    | Resume parser + extractor            |
 | 2    | Prompt engineering + GPT feedback    |
 | 3    | Scoring logic + web UI/report export |
-
